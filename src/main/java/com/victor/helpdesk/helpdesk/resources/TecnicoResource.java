@@ -1,5 +1,8 @@
 package com.victor.helpdesk.helpdesk.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,15 @@ public class TecnicoResource {
     Tecnico obj = service.findById(id);
 
     return ResponseEntity.status(HttpStatus.OK).body(new TecnicoDTO(obj));
+
+  }
+
+  @GetMapping
+  public ResponseEntity<List<TecnicoDTO>> findAll() {
+
+    List<Tecnico> list = service.findAll();
+    List<TecnicoDTO> listDTO = list.stream().map(x -> new TecnicoDTO(x)).collect(Collectors.toList());
+    return ResponseEntity.ok().body(listDTO);
 
   }
 
