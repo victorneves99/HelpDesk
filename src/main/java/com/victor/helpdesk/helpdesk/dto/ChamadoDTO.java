@@ -2,6 +2,8 @@ package com.victor.helpdesk.helpdesk.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -36,6 +38,8 @@ public class ChamadoDTO {
   private String titulo;
 
   @NotNull(message = "O campo observacoes é requerido ")
+  @NotEmpty(message = "O campo observações nao pode estar vazio")
+  @NotBlank(message = "Campo observações nao pdoe estar em branco")
   private String observacoes;
 
   @NotNull(message = "O campo tecnico é requerido ")

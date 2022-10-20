@@ -1,5 +1,6 @@
 package com.victor.helpdesk.helpdesk.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +58,10 @@ public class ChamadoService {
 
     }
 
+    if (chamadoDTO.getStatus().equals(2)) {
+      chamado.setDataFechamento(LocalDate.now());
+    }
+
     chamado.setTecnico(tecnico);
     chamado.setCliente(cliente);
     chamado.setPrioridade(Prioridade.toEnum(chamadoDTO.getPrioridade()));
@@ -65,6 +70,18 @@ public class ChamadoService {
     chamado.setObservacoes(chamadoDTO.getObservacoes());
 
     return chamado;
+  }
+
+  public Chamado update(@Valid Integer id, ChamadoDTO chamadoDTO) {
+
+    chamadoDTO.setId(id);
+
+    Chamado oldChamado = findById(id);
+
+    oldChamado = newChamado(chamadoDTO);
+
+    return chamadoRespository.save(oldChamado);
+
   }
 
 }
