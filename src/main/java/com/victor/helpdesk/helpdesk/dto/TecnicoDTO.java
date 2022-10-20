@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.victor.helpdesk.helpdesk.domain.Tecnico;
 import com.victor.helpdesk.helpdesk.domain.enums.Perfil;
@@ -20,11 +23,21 @@ public class TecnicoDTO implements Serializable {
   private static final long serialVersionUID = 1L;
 
   protected Integer id;
+
+  @NotNull(message = "Campo nome é requerido")
+  @NotBlank(message = "Campo nome não pode estar em vazio")
   protected String nome;
 
+  @NotNull(message = "Campo CPF é requerido")
+  @NotBlank(message = "Campo CPF não pode estar em vazio")
   protected String cpf;
 
+  @NotNull(message = "Campo EMAIL é requerido")
+  @NotBlank(message = "Campo EMAIL não pode estar em vazio")
   protected String email;
+
+  @NotNull(message = "Campo SENHA é requerido")
+  @NotBlank(message = "Campo SENHA não pode estar em vazio")
   protected String senha;
 
   protected Set<Integer> perfis = new HashSet<>();

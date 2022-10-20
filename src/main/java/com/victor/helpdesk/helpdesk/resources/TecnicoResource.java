@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.victor.helpdesk.helpdesk.domain.Tecnico;
 import com.victor.helpdesk.helpdesk.dto.TecnicoDTO;
-import com.victor.helpdesk.helpdesk.repositories.TecnicoRespository;
 import com.victor.helpdesk.helpdesk.services.TecnicoService;
 
 @RestController
@@ -46,7 +47,7 @@ public class TecnicoResource {
   }
 
   @PostMapping
-  public ResponseEntity<TecnicoDTO> create(@RequestBody TecnicoDTO objDTO) {
+  public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO objDTO) {
 
     Tecnico newOBJ = service.create(objDTO);
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newOBJ.getId()).toUri();

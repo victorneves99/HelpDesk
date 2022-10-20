@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.victor.helpdesk.helpdesk.domain.enums.Perfil;
 
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode
 @Entity
+@JsonSerialize
 public abstract class Pessoa implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -33,6 +35,7 @@ public abstract class Pessoa implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   protected Integer id;
+
   protected String nome;
 
   @Column(unique = true)
@@ -40,6 +43,7 @@ public abstract class Pessoa implements Serializable {
 
   @Column(unique = true)
   protected String email;
+
   protected String senha;
 
   @ElementCollection(fetch = FetchType.EAGER)
