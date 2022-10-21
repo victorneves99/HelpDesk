@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,17 +25,15 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.victor.helpdesk.helpdesk.security.JWTAuthenticationFilter;
+import com.victor.helpdesk.helpdesk.security.JWTAuthorizationFilter;
 import com.victor.helpdesk.helpdesk.security.JWTUtil;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 public class SecurityConfig {
 
   private static final String[] PUBLIC_MATCHERS = { "/h2/**" };
-
-  private AuthenticationConfiguration authenticationManageConfiguration;
-
-  private AuthenticationManager authenticationManager;
 
   @Autowired
   private Environment env;
@@ -56,8 +55,12 @@ public class SecurityConfig {
 
     http.addFilter(new JWTAuthenticationFilter(authManager, jwtUtil));
 
+    http.addFilter(new JWTAuthorizationFilter(authManager, jwtUtil, detailsService));
+
     http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
+
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
     return http.build();
 
   }
